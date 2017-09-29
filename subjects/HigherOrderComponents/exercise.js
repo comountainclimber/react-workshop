@@ -15,8 +15,54 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import * as styles from './styles'
 
-const withMouse = (Component) => {
-  return Component
+const withCat = (C) => {
+
+    class ContainingCat extends React.Component {
+      render() {
+        const { mouse } = this.props
+        return (
+          <div>
+            <img
+              style={{
+                position: 'absolute',
+                top: 20 + mouse.y,
+                left: 20 + mouse.x
+              }}
+              src="https://pbs.twimg.com/profile_images/742621666027569152/m345-jkv_400x400.jpg"
+            />
+            <C {...this.props}/>
+          </div>
+
+        )
+      }
+    }
+    return ContainingCat;
+}
+
+const withMouse = (C) => {
+  class ContainingMouse extends React.Component {
+      state = {
+        x: 0,
+        y: 0
+      }
+
+      handleMouseMove(e) {
+        console.log(e)
+        this.setState({
+          x: e.clientX,
+          y: e.clientY
+        })
+      }
+
+      render() {
+        return (
+          <div onMouseMove={(e) => this.handleMouseMove(e)}>
+            <C mouse={this.state} />
+          </div>
+        )
+      }
+  }
+  return ContainingMouse;
 }
 
 class App extends React.Component {
@@ -42,6 +88,6 @@ class App extends React.Component {
   }
 }
 
-const AppWithMouse = withMouse(App)
+const AppWithMouse = withMouse(withCat(App))
 
 ReactDOM.render(<AppWithMouse/>, document.getElementById('app'))
