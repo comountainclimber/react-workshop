@@ -46,8 +46,8 @@ class Route extends React.Component {
   render() {
     const { path, render, component: Component } = this.props
     const { history } = this.context
-    if (history.location.pathname === path && render) return render()
-    if (history.location.pathname === path && this.props.component) return <Component />
+    if (history.location.pathname === path && render) return render({ history })
+    if (history.location.pathname === path && this.props.component) return <Component history={history}/>
     return null
   }
 }
@@ -72,5 +72,9 @@ class Link extends React.Component {
     )
   }
 }
+
+const withRouter = (Comp) => (props) => (
+  <Route path="/" render={(routerProps) => <Comp {...props} {...routerProps}/>}/>
+)
 
 export { Router, Route, Link }
