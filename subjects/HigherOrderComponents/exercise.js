@@ -26,7 +26,8 @@ const withCat = (C) => {
               style={{
                 position: 'absolute',
                 top: 20 + mouse.y,
-                left: 20 + mouse.x
+                left: 20 + mouse.x,
+                transform: 'all ease-in'
               }}
               src="https://pbs.twimg.com/profile_images/742621666027569152/m345-jkv_400x400.jpg"
             />
@@ -57,12 +58,12 @@ const withMouse = (C) => {
       render() {
         return (
           <div onMouseMove={(e) => this.handleMouseMove(e)}>
-            <C mouse={this.state} />
+            <C mouse={this.state}/>
           </div>
         )
       }
   }
-  return ContainingMouse;
+  return ContainingMouse
 }
 
 class App extends React.Component {
